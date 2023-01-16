@@ -1,23 +1,22 @@
 public class Main {
     public static void main(String[] args) {
 
-        MyProducer p = new MyProducer();
-        MyProducer p2 = new MyProducer();
-        MyConsumer m = new MyConsumer("a");
-        MyConsumer m1 = new MyConsumer("b");
-        MyConsumer m2 = new MyConsumer("c");
-        MyConsumer m3 = new MyConsumer("d");
-        MyConsumer m4 = new MyConsumer("e");
-        MyConsumer m5 = new MyConsumer("f");
+        Thread thread = new Thread(new MyProducer()); // implement Runnable
+        Thread thread1 = new Thread(new MyProducer());
+        Thread thread2 = new Thread(new MyConsumer("a"));
+        Thread thread3=new Thread(new MyConsumer("b"));
+        Thread thread4=new Thread(new MyConsumer("c"));
 
+//        MyProducer p = new MyProducer(); // extends Thread
+//        MyProducer p1 = new MyProducer();
+//        MyConsumer m = new MyConsumer("a");
+//        MyConsumer m1 = new MyConsumer("b");
+//        MyConsumer m2 = new MyConsumer("c");
 
-        p.start();
-        m.start();
-        m1.start();
-        m2.start();
-        m3.start();
-        m4.start();
-        m5.start();
-
+        thread.start();
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        thread4.start();
     }
 }
