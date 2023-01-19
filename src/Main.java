@@ -14,6 +14,7 @@ public class Main  {
 //        Thread thread = new Thread(new MyProducer()); // implement Runnable
 //        Thread thread2 = new Thread(new MyConsumer("a"));
 //        Thread thread3=new Thread(new MyConsumer("b"));
+//        Thread thread4=new Thread(new MyConsumer("c"));
 //
 ////        MyProducer p = new MyProducer(); // extends Thread
 ////        MyConsumer m = new MyConsumer("a");
@@ -22,5 +23,6 @@ public class Main  {
 //        thread.start();
 //        thread2.start();
 //        thread3.start();
+//        thread4.start();
     }
 }
