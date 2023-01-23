@@ -22,6 +22,8 @@ public class MyConsumer extends Thread {
 //            if (lastIndex > -1) {
 //                String s = Base.list.remove(lastIndex);
 //                System.out.println(name+"=" + s);
+        //                System.out.println();
+
 //            }
 //        }
     }
