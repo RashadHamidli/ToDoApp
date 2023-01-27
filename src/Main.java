@@ -15,7 +15,7 @@ public class Main  {
 //        Thread thread2 = new Thread(new MyConsumer("a"));
 //        Thread thread3=new Thread(new MyConsumer("b"));
 //        Thread thread4=new Thread(new MyConsumer("c"));
-//
+///
 ////        MyProducer p = new MyProducer(); // extends Thread
 ////        MyConsumer m = new MyConsumer("a");
 ////        MyConsumer m1 = new MyConsumer("b");
