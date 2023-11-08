@@ -1,7 +1,9 @@
 package com.company.reposiroty;
 
+import com.company.entity.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TaskRepository {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 }
