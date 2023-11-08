@@ -1,6 +1,7 @@
 package com.company.controller;
 
 import com.company.dto.UserDTO;
+import com.company.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserRestController {
+    private final UserService userService;
+
+    public UserRestController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers(@RequestBody UserDTO userDTO) {
         return null;
