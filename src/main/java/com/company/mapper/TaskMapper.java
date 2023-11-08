@@ -28,4 +28,15 @@ public class TaskMapper {
         task.setUser(user);
         return task;
     }
+    public Task taskDTOConvertToTaskRes(TaskDTO taskDTO) {
+        Task task = new Task();
+        task.setId(taskDTO.getId());
+        task.setTaskName(taskDTO.getTaskName());
+        task.setDedline(taskDTO.getDeadline());
+        task.setText(taskDTO.getText());
+        User user = new User();
+        user.setId(taskDTO.getId());
+        task.setUser(user);
+        return task;
+    }
 }

@@ -7,23 +7,31 @@ import com.company.entity.User;
 import com.company.mapper.TaskMapper;
 import com.company.mapper.UserMapper;
 import com.company.reposiroty.UserRepository;
+import com.company.request.TaskRequest;
+import com.company.request.UserLoginRequest;
+import com.company.respons.TaskRespons;
+import com.company.respons.UserRespons;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final TaskMapper taskMapper;
+    private final UserLoginRequest userLoginRequest;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, TaskMapper taskMapper) {
+    public UserService(UserRepository userRepository,
+                       UserMapper userMapper,
+                       TaskMapper taskMapper,
+                       UserLoginRequest userLoginRequest) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.taskMapper = taskMapper;
+        this.userLoginRequest = userLoginRequest;
     }
 
     public List<UserDTO> getAllUser() {
@@ -57,8 +65,6 @@ public class UserService {
                 foundedUser.setName(userDTO.getName());
             if (userDTO.getSurname() != null && !userDTO.getSurname().isEmpty())
                 foundedUser.setSurname(userDTO.getSurname());
-            if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty())
-                foundedUser.setPassword(userDTO.getPassword());
             if (userDTO.getTaskList() != null && userDTO.getTaskList().isEmpty()) {
                 List<TaskDTO> taskList = userDTO.getTaskList();
                 List<Task> taskListDTO = taskList.stream().map(taskMapper::taskDTOConvertToTask).collect(Collectors.toList());
@@ -71,11 +77,17 @@ public class UserService {
         return false;
     }
 
-    public boolean loginUser(UserDTO userDTO) {
-        User user = userMapper.userConvertToUserDTO(userDTO);
+    public UserRespons loginUser(UserLoginRequest request) {
+        User user = userLoginRequest.userDTOConvertToUser(request);
         User foundedUser = userRepository.findUserByEmail(user.getEmail());
-        if (foundedUser != null && foundedUser.getEmail().equals(user.getEmail()))
-            return true;
-        return false;
+        if (foundedUser != null && foundedUser.getEmail().equals(user.getEmail())) {
+            List<Task> userTasks = foundedUser.getTaskList();
+            List<TaskRespons> tasks = userTasks.stream()
+                    .map(TaskRespons::new)
+                    .collect(Collectors.toList());
+            return new UserRespons(foundedUser, tasks);
+        }
+        return null;
     }
+
 }
