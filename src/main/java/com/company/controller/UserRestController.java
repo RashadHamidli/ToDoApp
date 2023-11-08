@@ -24,8 +24,10 @@ public class UserRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO) {
-        return null;
+    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
+        boolean loginUser = userService.loginUser(userDTO);
+        return loginUser ? ResponseEntity.status(HttpStatus.OK).body("user successfully login")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("user cannot be logged in");
     }
 
     @PostMapping("/register")

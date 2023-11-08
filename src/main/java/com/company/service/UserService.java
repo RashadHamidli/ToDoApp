@@ -70,4 +70,12 @@ public class UserService {
         }
         return false;
     }
+
+    public boolean loginUser(UserDTO userDTO) {
+        User user = userMapper.userConvertToUserDTO(userDTO);
+        User foundedUser = userRepository.findUserByEmail(user.getEmail());
+        if (foundedUser != null && foundedUser.getEmail().equals(user.getEmail()))
+            return true;
+        return false;
+    }
 }
