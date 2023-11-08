@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class TaskMapper {
     public TaskDTO taskConvertToTaskDTO(Task task) {
         TaskDTO taskDTO = new TaskDTO();
-        taskDTO.setId(taskDTO.getId());
+        taskDTO.setId(task.getId());
         taskDTO.setUserId(task.getId());
         taskDTO.setTaskName(task.getTaskName());
         taskDTO.setDeadline(task.getDedline());
