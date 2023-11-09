@@ -1,10 +1,7 @@
 package com.company.service;
 
-import com.company.dto.TaskDTO;
-import com.company.dto.UserDTO;
 import com.company.entity.Task;
 import com.company.entity.User;
-import com.company.mapper.TaskMapper;
 import com.company.mapper.UserMapper;
 import com.company.reposiroty.UserRepository;
 import com.company.request.UserLoginRequest;
@@ -16,21 +13,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
-    private final TaskMapper taskMapper;
     private final UserLoginRequest userLoginRequest;
 
-    public UserService(UserRepository userRepository,
-                       UserMapper userMapper,
-                       TaskMapper taskMapper, UserLoginRequest userLoginRequest) {
+    public UserService(UserRepository userRepository, UserLoginRequest userLoginRequest) {
         this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.taskMapper = taskMapper;
         this.userLoginRequest = userLoginRequest;
     }
 
