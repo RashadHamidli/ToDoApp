@@ -63,22 +63,20 @@ public class UserService {
     }
 
     public UserRespons updateUser(Long userId, UserRequest userRequest) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            User foundedUser = optionalUser.get();
-            if (userRequest.getName() != null && !userRequest.getName().isEmpty())
-                foundedUser.setName(userRequest.getName());
-            if (userRequest.getSurname() != null && !userRequest.getSurname().isEmpty())
-                foundedUser.setSurname(userRequest.getSurname());
-            foundedUser.setId(userId);
-            User updateUser = userRepository.save(foundedUser);
-            List<TaskRespons> tasks = optionalUser.get().getTaskList().stream()
-                    .map(TaskRespons::new)
-                    .collect(Collectors.toList());
-            List<Task> taskList = optionalUser.get().getTaskList();
-            return new UserRespons(updateUser, tasks);
-        }
-        return null;
+        return userRepository.findById(userId)
+                .map(foundedUser -> {
+                    if (userRequest.getName() != null && !userRequest.getName().isEmpty())
+                        foundedUser.setName(userRequest.getName());
+                    if (userRequest.getSurname() != null && !userRequest.getSurname().isEmpty())
+                        foundedUser.setSurname(userRequest.getSurname());
+                    foundedUser.setId(userId);
+                    User updateUser = userRepository.save(foundedUser);
+                    List<TaskRespons> tasks = foundedUser.getTaskList().stream()
+                            .map(TaskRespons::new)
+                            .collect(Collectors.toList());
+                    return new UserRespons(updateUser, tasks);
+                })
+                .orElse(null);
     }
 
     public boolean deleteUser(Long userId) {
@@ -95,27 +93,24 @@ public class UserService {
     }
 
     public TaskRespons updateUserTasks(Long userId, Long taskId, TaskRequest taskRequest) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            Optional<Task> optionalTask = taskRepository.findById(taskId);
-            if (optionalTask.isPresent()) {
-                Task task = optionalTask.get();
-                if (taskRequest.getTaskName() != null && !taskRequest.getTaskName().isEmpty()) {
-                    task.setTaskName(taskRequest.getTaskName());
-                }
-                if (taskRequest.getDeadline() != null) {
-                    task.setDedline(taskRequest.getDeadline());
-                }
-                if (taskRequest.getText() != null && !taskRequest.getText().isEmpty()) {
-                    task.setText(taskRequest.getText());
-                }
-                task.setUser(user);
-                Task updatedTask = taskRepository.save(task);
-                return new TaskRespons(updatedTask);
-            }
-        }
-        return null;
+        return userRepository.findById(userId)
+                .map(user -> {
+                    Optional<Task> optionalTask = taskRepository.findById(taskId);
+                    if (optionalTask.isPresent()) {
+                        Task task = optionalTask.get();
+                        if (taskRequest.getTaskName() != null && !taskRequest.getTaskName().isEmpty())
+                            task.setTaskName(taskRequest.getTaskName());
+                        if (taskRequest.getDeadline() != null)
+                            task.setDedline(taskRequest.getDeadline());
+                        if (taskRequest.getText() != null && !taskRequest.getText().isEmpty())
+                            task.setText(taskRequest.getText());
+                        task.setUser(user);
+                        Task updatedTask = taskRepository.save(task);
+                        return new TaskRespons(updatedTask);
+                    }
+                    return null;
+                })
+                .orElse(null);
     }
 
 

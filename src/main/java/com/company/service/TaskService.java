@@ -32,34 +32,29 @@ public class TaskService {
     }
 
     public TaskRespons createTaskForUser(Long userId, TaskRequest taskRequest) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            Task task = new TaskRequest().taskRequestConverToTask(taskRequest);
-            User user = optionalUser.get();
-            List<Task> userTasks = user.getTaskList();
-            userTasks.add(task);
-            task.setUser(user);
-            taskRepository.save(task);
-            userRepository.save(user);
-            return new TaskRespons(task);
-        }
-        return null;
+        return userRepository.findById(userId)
+                .map(user -> {
+                    Task task = new TaskRequest().taskRequestConverToTask(taskRequest);
+                    task.setUser(user);
+                    Task savedTask = taskRepository.save(task);
+                    return new TaskRespons(savedTask);
+                })
+                .orElseThrow();
     }
 
     public TaskRespons updateTaskByTaskId(Long taskId, TaskRequest taskRequest) {
-        Optional<Task> optionalTask = taskRepository.findById(taskId);
-        if (optionalTask.isPresent()) {
-            Task task = optionalTask.get();
-            if (taskRequest.getTaskName() != null && !taskRequest.getTaskName().isEmpty())
-                task.setTaskName(taskRequest.getTaskName());
-            if (taskRequest.getDeadline() != null)
-                task.setDedline(taskRequest.getDeadline());
-            if (taskRequest.getText() != null && !taskRequest.getText().isEmpty())
-                task.setText(taskRequest.getText());
-            Task savedTask = taskRepository.save(task);
-            return new TaskRespons(savedTask);
-        }
-        return null;
+        return taskRepository.findById(taskId)
+                .map(task -> {
+                    if (taskRequest.getTaskName() != null && !taskRequest.getTaskName().isEmpty())
+                        task.setTaskName(taskRequest.getTaskName());
+                    if (taskRequest.getDeadline() != null)
+                        task.setDedline(taskRequest.getDeadline());
+                    if (taskRequest.getText() != null && !taskRequest.getText().isEmpty())
+                        task.setText(taskRequest.getText());
+                    Task savedTask = taskRepository.save(task);
+                    return new TaskRespons(savedTask);
+                })
+                .orElse(null);
     }
 
     public boolean deleteTaskByTaskId(Long taskId) {
