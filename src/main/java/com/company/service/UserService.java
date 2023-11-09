@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -68,40 +69,35 @@ public class UserService {
         }).collect(Collectors.toList());
     }
 
-
-//    public List<UserDTO> getAllUser2() {
-//        List<User> allUsers = userRepository.findAll();
-//        return allUsers.stream().map(user -> {
-//            UserDTO userDTO = userMapper.userDTOConvertToUser(user);
-//            List<TaskDTO> taskDTOS = user.getTaskList()
-//                    .stream()
-//                    .map(taskMapper::taskConvertToTaskDTO)
-//                    .collect(Collectors.toList());
-//            userDTO.setTaskList(taskDTOS);
-//            return userDTO;
-//        }).toList();
-//    }
-
-
-    public boolean updateUser(Long userId, UserDTO userDTO) {
+    public UserRespons updateUser(Long userId, UserRequest userRequest) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User foundedUser = optionalUser.get();
-            if (userDTO.getName() != null && !userDTO.getName().isEmpty())
-                foundedUser.setName(userDTO.getName());
-            if (userDTO.getSurname() != null && !userDTO.getSurname().isEmpty())
-                foundedUser.setSurname(userDTO.getSurname());
-            if (userDTO.getTaskList() != null && userDTO.getTaskList().isEmpty()) {
-                List<TaskDTO> taskList = userDTO.getTaskList();
-                List<Task> taskListDTO = taskList.stream().map(taskMapper::taskDTOConvertToTask).collect(Collectors.toList());
-                foundedUser.setTaskList(taskListDTO);
-            }
+            if (userRequest.getName() != null && !userRequest.getName().isEmpty())
+                foundedUser.setName(userRequest.getName());
+            if (userRequest.getSurname() != null && !userRequest.getSurname().isEmpty())
+                foundedUser.setSurname(userRequest.getSurname());
             foundedUser.setId(userId);
-            userRepository.save(foundedUser);
-            return true;
+            User updateUser = userRepository.save(foundedUser);
+            List<TaskRespons> tasks = optionalUser.get().getTaskList().stream()
+                    .map(TaskRespons::new)
+                    .collect(Collectors.toList());
+            List<Task> taskList = optionalUser.get().getTaskList();
+            return new UserRespons(updateUser, tasks);
         }
-        return false;
+        return null;
     }
 
+    public boolean deleteUser(Long userId) {
+        Optional<User> optionalUser = Optional.of(userRepository.findById(userId).orElseThrow());
+        userRepository.delete(optionalUser.get());
+        return true;
+    }
 
+    public List<TaskRespons> getUserTasks(Long userId) {
+        Optional<User> foundedUser = Optional.of(userRepository.findById(userId).orElseThrow());
+        List<Task> taskList = foundedUser.get().getTaskList();
+        List<TaskRespons> tasks = taskList.stream().map(TaskRespons::new).collect(Collectors.toList());
+        return tasks;
+    }
 }

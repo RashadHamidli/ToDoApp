@@ -3,6 +3,7 @@ package com.company.controller;
 import com.company.dto.UserDTO;
 import com.company.request.UserLoginRequest;
 import com.company.request.UserRequest;
+import com.company.respons.TaskRespons;
 import com.company.respons.UserRespons;
 import com.company.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserRestController {
     private final UserService userService;
+
     public UserRestController(UserService userService) {
         this.userService = userService;
     }
@@ -38,26 +40,29 @@ public class UserRestController {
         return null;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<UserRespons>> getAllUsers() {
         List<UserRespons> allUser = userService.getAllUser();
         return ResponseEntity.ok(allUser);
     }
 
     @PostMapping("/update/{userId}")
-    public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
-        boolean updateUser = userService.updateUser(userId, userDTO);
-        return updateUser ? ResponseEntity.status(HttpStatus.OK).body("update user successfully")
-                : ResponseEntity.status(HttpStatus.CONFLICT).body("user cannot be updated");
+    public ResponseEntity<UserRespons> updateUser(@PathVariable Long userId, @RequestBody UserRequest userRequest) {
+        UserRespons userRespons = userService.updateUser(userId, userRequest);
+        return userRespons != null ? ResponseEntity.status(HttpStatus.OK).body(userRespons)
+                : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
     @DeleteMapping("delete/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
-        return null;
+        boolean deleteUser = userService.deleteUser(userId);
+        return deleteUser ? ResponseEntity.status(HttpStatus.OK).body("delete successfully")
+                : ResponseEntity.status(HttpStatus.CONFLICT).body("user cannot deleted");
     }
 
     @GetMapping("/{userId}/tasks")
-    public ResponseEntity<UserDTO> getUserTasks(@PathVariable Long userId) {
-        return null;
+    public ResponseEntity<List<TaskRespons>> getUserTasks(@PathVariable Long userId) {
+        List<TaskRespons> userTasks = userService.getUserTasks(userId);
+        return ResponseEntity.ok(userTasks);
     }
 }
