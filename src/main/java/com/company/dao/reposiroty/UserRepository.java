@@ -1,7 +1,6 @@
-package com.company.reposiroty;
+package com.company.dao.reposiroty;
 
-import com.company.entity.User;
-import com.company.request.UserLoginRequest;
+import com.company.dao.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

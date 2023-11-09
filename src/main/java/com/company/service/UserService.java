@@ -1,12 +1,12 @@
 package com.company.service;
 
-import com.company.entity.Task;
-import com.company.entity.User;
-import com.company.reposiroty.UserRepository;
-import com.company.request.UserLoginRequest;
-import com.company.request.UserRequest;
-import com.company.respons.TaskRespons;
-import com.company.respons.UserRespons;
+import com.company.dao.entity.Task;
+import com.company.dao.entity.User;
+import com.company.dao.reposiroty.UserRepository;
+import com.company.dto.request.UserLoginRequest;
+import com.company.dto.request.UserRequest;
+import com.company.dto.respons.TaskRespons;
+import com.company.dto.respons.UserRespons;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

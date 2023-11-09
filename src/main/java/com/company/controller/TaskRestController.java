@@ -1,7 +1,7 @@
 package com.company.controller;
 
-import com.company.request.TaskRequest;
-import com.company.respons.TaskRespons;
+import com.company.dto.request.TaskRequest;
+import com.company.dto.respons.TaskRespons;
 import com.company.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

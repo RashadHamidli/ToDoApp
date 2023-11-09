@@ -1,6 +1,6 @@
-package com.company.reposiroty;
+package com.company.dao.reposiroty;
 
-import com.company.entity.Task;
+import com.company.dao.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

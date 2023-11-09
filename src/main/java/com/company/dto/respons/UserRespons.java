@@ -1,6 +1,6 @@
-package com.company.respons;
+package com.company.dto.respons;
 
-import com.company.entity.User;
+import com.company.dao.entity.User;
 import lombok.Data;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.company.respons;
+package com.company.dto.respons;
 
-import com.company.entity.Task;
+import com.company.dao.entity.Task;
 import lombok.Data;
 
 import java.sql.Time;
