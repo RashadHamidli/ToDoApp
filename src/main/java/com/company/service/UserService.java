@@ -9,6 +9,7 @@ import com.company.dto.request.UserLoginRequest;
 import com.company.dto.request.UserRequest;
 import com.company.dto.respons.TaskRespons;
 import com.company.dto.respons.UserRespons;
+import com.company.exceptions.MyExceptionHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -76,7 +77,7 @@ public class UserService {
                             .collect(Collectors.toList());
                     return new UserRespons(updateUser, tasks);
                 })
-                .orElse(null);
+                .orElseThrow(MyExceptionHandler::new);
     }
 
     public boolean deleteUser(Long userId) {
@@ -110,7 +111,7 @@ public class UserService {
                     }
                     return null;
                 })
-                .orElse(null);
+                .orElseThrow(MyExceptionHandler::new);
     }
 
 

@@ -6,6 +6,7 @@ import com.company.dao.reposiroty.TaskRepository;
 import com.company.dao.reposiroty.UserRepository;
 import com.company.dto.request.TaskRequest;
 import com.company.dto.respons.TaskRespons;
+import com.company.exceptions.MyExceptionHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class TaskService {
                     Task savedTask = taskRepository.save(task);
                     return new TaskRespons(savedTask);
                 })
-                .orElseThrow();
+                .orElseThrow(MyExceptionHandler::new);
     }
 
     public TaskRespons updateTaskByTaskId(Long taskId, TaskRequest taskRequest) {
@@ -54,7 +55,7 @@ public class TaskService {
                     Task savedTask = taskRepository.save(task);
                     return new TaskRespons(savedTask);
                 })
-                .orElse(null);
+                .orElseThrow(MyExceptionHandler::new);
     }
 
     public boolean deleteTaskByTaskId(Long taskId) {
