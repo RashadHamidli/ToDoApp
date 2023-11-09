@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.dto.request.TaskRequest;
 import com.company.dto.request.UserLoginRequest;
 import com.company.dto.request.UserRequest;
 import com.company.dto.respons.TaskRespons;
@@ -64,9 +65,10 @@ public class UserRestController {
         List<TaskRespons> userTasks = userService.getUserTasks(userId);
         return ResponseEntity.ok(userTasks);
     }
-//    @PutMapping("/{userId}/{tasksid}")
-//    public ResponseEntity<List<TaskRespons>> updteUserTask(@PathVariable Long userId, @PathVariable Long tasksid) {
-//        userService.updateUserTasks(userId,tasksid);
-//        return ResponseEntity.ok(userTasks);
-//    }
+
+    @PostMapping("/{userId}/{tasksid}")
+    public ResponseEntity<TaskRespons> updteUserTask(@PathVariable Long userId, @PathVariable Long tasksid, @RequestBody TaskRequest taskRequest) {
+        TaskRespons taskRespons = userService.updateUserTasks(userId, tasksid, taskRequest);
+        return ResponseEntity.ok(taskRespons);
+    }
 }

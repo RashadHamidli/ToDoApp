@@ -2,7 +2,9 @@ package com.company.service;
 
 import com.company.dao.entity.Task;
 import com.company.dao.entity.User;
+import com.company.dao.reposiroty.TaskRepository;
 import com.company.dao.reposiroty.UserRepository;
+import com.company.dto.request.TaskRequest;
 import com.company.dto.request.UserLoginRequest;
 import com.company.dto.request.UserRequest;
 import com.company.dto.respons.TaskRespons;
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final UserLoginRequest userLoginRequest;
+    private final TaskRepository taskRepository;
 
-    public UserService(UserRepository userRepository, UserLoginRequest userLoginRequest) {
+    public UserService(UserRepository userRepository, UserLoginRequest userLoginRequest, TaskRepository taskRepository) {
         this.userRepository = userRepository;
         this.userLoginRequest = userLoginRequest;
+        this.taskRepository = taskRepository;
     }
 
     public boolean createUser(UserRequest userRequest) {
@@ -89,4 +93,30 @@ public class UserService {
         List<TaskRespons> tasks = taskList.stream().map(TaskRespons::new).collect(Collectors.toList());
         return tasks;
     }
+
+    public TaskRespons updateUserTasks(Long userId, Long taskId, TaskRequest taskRequest) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Optional<Task> optionalTask = taskRepository.findById(taskId);
+            if (optionalTask.isPresent()) {
+                Task task = optionalTask.get();
+                if (taskRequest.getTaskName() != null && !taskRequest.getTaskName().isEmpty()) {
+                    task.setTaskName(taskRequest.getTaskName());
+                }
+                if (taskRequest.getDeadline() != null) {
+                    task.setDedline(taskRequest.getDeadline());
+                }
+                if (taskRequest.getText() != null && !taskRequest.getText().isEmpty()) {
+                    task.setText(taskRequest.getText());
+                }
+                task.setUser(user);
+                Task updatedTask = taskRepository.save(task);
+                return new TaskRespons(updatedTask);
+            }
+        }
+        return null;
+    }
+
+
 }
