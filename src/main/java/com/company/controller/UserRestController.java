@@ -46,7 +46,7 @@ public class UserRestController {
         return ResponseEntity.ok(allUser);
     }
 
-    @PostMapping("/update/{userId}")
+    @PutMapping("/update/{userId}")
     public ResponseEntity<UserRespons> updateUser(@PathVariable Long userId, @RequestBody UserRequest userRequest) {
         UserRespons userRespons = userService.updateUser(userId, userRequest);
         return userRespons != null ? ResponseEntity.status(HttpStatus.OK).body(userRespons)
@@ -65,4 +65,9 @@ public class UserRestController {
         List<TaskRespons> userTasks = userService.getUserTasks(userId);
         return ResponseEntity.ok(userTasks);
     }
+//    @PutMapping("/{userId}/{tasksid}")
+//    public ResponseEntity<List<TaskRespons>> updteUserTask(@PathVariable Long userId, @PathVariable Long tasksid) {
+//        userService.updateUserTasks(userId,tasksid);
+//        return ResponseEntity.ok(userTasks);
+//    }
 }
