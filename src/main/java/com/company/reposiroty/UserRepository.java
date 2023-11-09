@@ -1,6 +1,7 @@
 package com.company.reposiroty;
 
 import com.company.entity.User;
+import com.company.request.UserLoginRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

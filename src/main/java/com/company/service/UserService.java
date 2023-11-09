@@ -7,8 +7,8 @@ import com.company.entity.User;
 import com.company.mapper.TaskMapper;
 import com.company.mapper.UserMapper;
 import com.company.reposiroty.UserRepository;
-import com.company.request.TaskRequest;
 import com.company.request.UserLoginRequest;
+import com.company.request.UserRequest;
 import com.company.respons.TaskRespons;
 import com.company.respons.UserRespons;
 import org.springframework.stereotype.Service;
@@ -26,36 +26,62 @@ public class UserService {
 
     public UserService(UserRepository userRepository,
                        UserMapper userMapper,
-                       TaskMapper taskMapper,
-                       UserLoginRequest userLoginRequest) {
+                       TaskMapper taskMapper, UserLoginRequest userLoginRequest) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.taskMapper = taskMapper;
         this.userLoginRequest = userLoginRequest;
     }
 
-    public List<UserDTO> getAllUser() {
-        List<User> allUsers = userRepository.findAll();
-        return allUsers.stream().map(user -> {
-            UserDTO userDTO = userMapper.userDTOConvertToUser(user);
-            List<TaskDTO> taskDTOS = user.getTaskList()
-                    .stream()
-                    .map(taskMapper::taskConvertToTaskDTO)
-                    .collect(Collectors.toList());
-            userDTO.setTaskList(taskDTOS);
-            return userDTO;
-        }).toList();
-    }
-
-    public boolean createUser(UserDTO userDTO) {
-        User findByEmail = userRepository.findUserByEmail(userDTO.getEmail());
-        if (findByEmail != null)
+    public boolean createUser(UserRequest userRequest) {
+        User foundedUser = userRepository.findUserByEmail(userRequest.getEmail());
+        if (foundedUser != null)
             return false;
-        User user = userMapper.userConvertToUserDTO(userDTO);
-        User savedUser = userRepository.save(user);
-        userMapper.userDTOConvertToUser(savedUser);
+        User user = userRequest.userRequestConvertToUser(userRequest);
+        userRepository.save(user);
         return true;
     }
+
+    public UserRespons loginUser(UserLoginRequest request) {
+        User user = userLoginRequest.userLoginRequestConvertToUser(request);
+        User foundedUser = userRepository.findUserByEmail(user.getEmail());
+        if (foundedUser != null
+                && foundedUser.getEmail().equals(user.getEmail())
+                && foundedUser.getPassword().equals(user.getPassword())) {
+            List<Task> userTasks = foundedUser.getTaskList();
+            List<TaskRespons> tasks = userTasks.stream()
+                    .map(TaskRespons::new)
+                    .collect(Collectors.toList());
+            return new UserRespons(foundedUser, tasks);
+        }
+        return null;
+    }
+
+    public List<UserRespons> getAllUser() {
+        List<User> allUsers = userRepository.findAll();
+        return allUsers.stream().map(user -> {
+            List<TaskRespons> tasks = user.getTaskList().stream()
+                    .map(TaskRespons::new)
+                    .collect(Collectors.toList());
+
+            return new UserRespons(user, tasks);
+        }).collect(Collectors.toList());
+    }
+
+
+//    public List<UserDTO> getAllUser2() {
+//        List<User> allUsers = userRepository.findAll();
+//        return allUsers.stream().map(user -> {
+//            UserDTO userDTO = userMapper.userDTOConvertToUser(user);
+//            List<TaskDTO> taskDTOS = user.getTaskList()
+//                    .stream()
+//                    .map(taskMapper::taskConvertToTaskDTO)
+//                    .collect(Collectors.toList());
+//            userDTO.setTaskList(taskDTOS);
+//            return userDTO;
+//        }).toList();
+//    }
+
 
     public boolean updateUser(Long userId, UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -77,17 +103,5 @@ public class UserService {
         return false;
     }
 
-    public UserRespons loginUser(UserLoginRequest request) {
-        User user = userLoginRequest.userDTOConvertToUser(request);
-        User foundedUser = userRepository.findUserByEmail(user.getEmail());
-        if (foundedUser != null && foundedUser.getEmail().equals(user.getEmail())) {
-            List<Task> userTasks = foundedUser.getTaskList();
-            List<TaskRespons> tasks = userTasks.stream()
-                    .map(TaskRespons::new)
-                    .collect(Collectors.toList());
-            return new UserRespons(foundedUser, tasks);
-        }
-        return null;
-    }
 
 }
