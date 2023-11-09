@@ -30,12 +30,12 @@ public class UserService {
     public User saveUser(User newUser) {
         return userRepository.save(newUser);
     }
-    public User getOneUserByUserName(String userName) {
-        return userRepository.findUserByEmail(userName);
+    public User getUserByEmail(String userName) {
+        return userRepository.findByEmail(userName);
     }
 
     public boolean createUser(UserRequest userRequest) {
-        User foundedUser = userRepository.findUserByEmail(userRequest.getEmail());
+        User foundedUser = userRepository.findByEmail(userRequest.getEmail());
         if (foundedUser != null)
             return false;
         User user = userRequest.userRequestConvertToUser(userRequest);
@@ -45,7 +45,7 @@ public class UserService {
 
     public UserRespons loginUser(UserLoginRequest request) {
         User user = userLoginRequest.userLoginRequestConvertToUser(request);
-        User foundedUser = userRepository.findUserByEmail(user.getEmail());
+        User foundedUser = userRepository.findByEmail(user.getEmail());
         if (foundedUser != null
                 && foundedUser.getEmail().equals(user.getEmail())
                 && foundedUser.getPassword().equals(user.getPassword())) {
