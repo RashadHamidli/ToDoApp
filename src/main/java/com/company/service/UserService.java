@@ -2,7 +2,6 @@ package com.company.service;
 
 import com.company.entity.Task;
 import com.company.entity.User;
-import com.company.mapper.UserMapper;
 import com.company.reposiroty.UserRepository;
 import com.company.request.UserLoginRequest;
 import com.company.request.UserRequest;
