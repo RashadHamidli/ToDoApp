@@ -1,13 +1,13 @@
 package com.company.controller;
 
-import com.company.entities.RefreshToken;
-import com.company.entities.User;
-import com.company.requests.RefreshRequest;
-import com.company.requests.UserRequest;
-import com.company.responses.AuthResponse;
+import com.company.dao.entity.RefreshToken;
+import com.company.dao.entity.User;
+import com.company.dto.request.RefreshRequest;
+import com.company.dto.request.UserRequest;
+import com.company.dto.respons.AuthResponse;
 import com.company.security.JwtTokenProvider;
-import com.company.services.RefreshTokenService;
-import com.company.services.UserService;
+import com.company.service.RefreshTokenService;
+import com.company.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,18 +24,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-	private AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
 
-	private JwtTokenProvider jwtTokenProvider;
+	private final JwtTokenProvider jwtTokenProvider;
 
-	private UserService userService;
+	private final UserService userService;
 
-	private PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
-	private RefreshTokenService refreshTokenService;
+	private final RefreshTokenService refreshTokenService;
 
-    public AuthController(AuthenticationManager authenticationManager, UserService userService,
-                          PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, RefreshTokenService refreshTokenService) {
+    public AuthController(AuthenticationManager authenticationManager,
+						  UserService userService,
+                          PasswordEncoder passwordEncoder,
+						  JwtTokenProvider jwtTokenProvider,
+						  RefreshTokenService refreshTokenService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -45,11 +48,11 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public AuthResponse login(@RequestBody UserRequest loginRequest) {
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
 		Authentication auth = authenticationManager.authenticate(authToken);
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		String jwtToken = jwtTokenProvider.generateJwtToken(auth);
-		User user = userService.getOneUserByUserName(loginRequest.getUserName());
+		User user = userService.getOneUserByUserName(loginRequest.getEmail());
 		AuthResponse authResponse = new AuthResponse();
 		authResponse.setAccessToken("Bearer " + jwtToken);
 		authResponse.setRefreshToken(refreshTokenService.createRefreshToken(user));
@@ -60,17 +63,17 @@ public class AuthController {
 	@PostMapping("/register")
 	public ResponseEntity<AuthResponse> register(@RequestBody UserRequest registerRequest) {
 		AuthResponse authResponse = new AuthResponse();
-		if(userService.getOneUserByUserName(registerRequest.getUserName()) != null) {
+		if(userService.getOneUserByUserName(registerRequest.getEmail()) != null) {
 			authResponse.setMessage("Username already in use.");
 			return new ResponseEntity<>(authResponse, HttpStatus.BAD_REQUEST);
 		}
 
 		User user = new User();
-		user.setUserName(registerRequest.getUserName());
+		user.setEmail(registerRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-		userService.saveOneUser(user);
+		userService.saveUser(user);
 
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(registerRequest.getUserName(), registerRequest.getPassword());
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(registerRequest.getEmail(), registerRequest.getPassword());
 		Authentication auth = authenticationManager.authenticate(authToken);
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		String jwtToken = jwtTokenProvider.generateJwtToken(auth);
@@ -88,7 +91,6 @@ public class AuthController {
 		RefreshToken token = refreshTokenService.getByUser(refreshRequest.getUserId());
 		if(token.getToken().equals(refreshRequest.getRefreshToken()) &&
 				!refreshTokenService.isRefreshExpired(token)) {
-
 			User user = token.getUser();
 			String jwtToken = jwtTokenProvider.generateJwtTokenByUserId(user.getId());
 			response.setMessage("token successfully refreshed.");

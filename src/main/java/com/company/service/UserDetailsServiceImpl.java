@@ -1,7 +1,7 @@
 package com.company.service;
 
-import com.company.entities.User;
-import com.company.repos.UserRepository;
+import com.company.dao.entity.User;
+import com.company.dao.reposiroty.UserRepository;
 import com.company.security.JwtUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUserName(username);
+		User user = userRepository.findUserByEmail(username);
 		return JwtUserDetails.create(user);
 	}
 

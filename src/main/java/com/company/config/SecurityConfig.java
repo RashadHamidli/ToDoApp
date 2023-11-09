@@ -2,7 +2,8 @@ package com.company.config;
 
 import com.company.security.JwtAuthenticationEntryPoint;
 import com.company.security.JwtAuthenticationFilter;
-import com.company.services.UserDetailsServiceImpl;
+import com.company.security.JwtTokenProvider;
+import com.company.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,18 +25,22 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    private JwtAuthenticationEntryPoint handler;
+    private final JwtAuthenticationEntryPoint handler;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthenticationEntryPoint handler) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService,
+                          JwtTokenProvider jwtTokenProvider,
+                          JwtAuthenticationEntryPoint handler) {
         this.userDetailsService = userDetailsService;
+        this.jwtTokenProvider = jwtTokenProvider;
         this.handler = handler;
     }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
+        return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
     }
 
     @Bean
@@ -72,9 +77,9 @@ public class SecurityConfig {
 //                .cors(Object::notifyAll)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/posts")
+                        .requestMatchers(HttpMethod.GET, "/users")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/comments")
+                        .requestMatchers(HttpMethod.GET, "/tasks")
                         .permitAll()
                         .requestMatchers("/auth/**")
                         .permitAll()

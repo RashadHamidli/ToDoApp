@@ -1,6 +1,6 @@
 package com.company.dao.reposiroty;
 
-import com.company.entities.RefreshToken;
+import com.company.dao.entity.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long>{

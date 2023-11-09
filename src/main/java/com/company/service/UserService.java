@@ -27,6 +27,12 @@ public class UserService {
         this.userLoginRequest = userLoginRequest;
         this.taskRepository = taskRepository;
     }
+    public User saveUser(User newUser) {
+        return userRepository.save(newUser);
+    }
+    public User getOneUserByUserName(String userName) {
+        return userRepository.findUserByEmail(userName);
+    }
 
     public boolean createUser(UserRequest userRequest) {
         User foundedUser = userRepository.findUserByEmail(userRequest.getEmail());

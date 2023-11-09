@@ -22,24 +22,6 @@ public class UserRestController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<UserRespons> login(@RequestBody UserLoginRequest request) {
-        UserRespons userRespons = userService.loginUser(request);
-        return userRespons != null ? ResponseEntity.ok(userRespons) : ResponseEntity.notFound().build();
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserRequest userRequest) {
-        boolean user1 = userService.createUser(userRequest);
-        return user1 ? ResponseEntity.status(HttpStatus.CREATED).body("create user successfully")
-                : ResponseEntity.status(HttpStatus.CONFLICT).body("email is alredy exsist");
-    }
-
-    @PostMapping("/refresh")
-    public ResponseEntity<String> refreshUser() {
-        return null;
-    }
-
     @GetMapping("/all")
     public ResponseEntity<List<UserRespons>> getAllUsers() {
         List<UserRespons> allUser = userService.getAllUser();
@@ -71,4 +53,22 @@ public class UserRestController {
         TaskRespons taskRespons = userService.updateUserTasks(userId, tasksid, taskRequest);
         return ResponseEntity.ok(taskRespons);
     }
+
+    //    @PostMapping("/login")
+//    public ResponseEntity<UserRespons> login(@RequestBody UserLoginRequest request) {
+//        UserRespons userRespons = userService.loginUser(request);
+//        return userRespons != null ? ResponseEntity.ok(userRespons) : ResponseEntity.notFound().build();
+//    }
+//
+//    @PostMapping("/register")
+//    public ResponseEntity<String> registerUser(@RequestBody UserRequest userRequest) {
+//        boolean user1 = userService.createUser(userRequest);
+//        return user1 ? ResponseEntity.status(HttpStatus.CREATED).body("create user successfully")
+//                : ResponseEntity.status(HttpStatus.CONFLICT).body("email is alredy exsist");
+//    }
+//
+//    @PostMapping("/refresh")
+//    public ResponseEntity<String> refreshUser() {
+//        return null;
+//    }
 }

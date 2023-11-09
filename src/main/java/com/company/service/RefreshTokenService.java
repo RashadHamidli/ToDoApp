@@ -1,9 +1,10 @@
 package com.company.service;
 
 
-import com.company.entities.RefreshToken;
-import com.company.entities.User;
-import com.company.repos.RefreshTokenRepository;
+
+import com.company.dao.entity.RefreshToken;
+import com.company.dao.entity.User;
+import com.company.dao.reposiroty.RefreshTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class RefreshTokenService {
 	@Value("${refresh.token.expires.in}")
 	Long expireSeconds;
 	
-	private RefreshTokenRepository refreshTokenRepository;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 	public RefreshTokenService(RefreshTokenRepository refreshTokenRepository) {
 		this.refreshTokenRepository = refreshTokenRepository;

@@ -1,6 +1,6 @@
 package com.company.security;
 
-import com.company.entities.User;
+import com.company.dao.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,7 +30,7 @@ public class JwtUserDetails implements UserDetails {
     public static JwtUserDetails create(User user) {
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
         authoritiesList.add(new SimpleGrantedAuthority("user"));
-        return new JwtUserDetails(user.getId(), user.getUserName(), user.getPassword(), authoritiesList);
+        return new JwtUserDetails(user.getId(), user.getName(), user.getPassword(), authoritiesList);
     }
 
 	@Override
