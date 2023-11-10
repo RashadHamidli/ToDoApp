@@ -68,5 +68,4 @@ public class UserRestControllerImpl implements UserRestController {
         TaskRespons taskRespons = userService.updateUserTasks(userId, tasksid, taskRequest);
         return ResponseEntity.ok(taskRespons);
     }
-
 }

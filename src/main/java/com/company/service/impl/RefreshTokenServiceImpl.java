@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
-public class RefreshTokenServiceImpl implements RefreshTokenService {
+public class RefreshTokenServiceImpl {
 
     @Value("${refresh.token.expires.in}")
     Long expireSeconds;
@@ -23,7 +23,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
-    @Override
     public String createRefreshToken(User user) {
         RefreshToken token = refreshTokenRepository.findByUserId(user.getId());
         if (token == null) {
@@ -36,14 +35,28 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         return token.getToken();
     }
 
-    @Override
+    public String createToken(User user, String ntoken) {
+        RefreshToken token = new RefreshToken();
+        token.setToken(ntoken);
+        token.setUser(user);
+        token.setExpiryDate(Date.from(Instant.now().plusSeconds(expireSeconds)));
+        RefreshToken save = refreshTokenRepository.save(token);
+        return save.getToken();
+    }
+
+
     public boolean isRefreshExpired(RefreshToken token) {
         return token.getExpiryDate().before(new Date());
     }
 
-    @Override
     public RefreshToken getByUser(Long userId) {
         return refreshTokenRepository.findByUserId(userId);
+    }
+
+    public String getToken(Long id) {
+        RefreshToken token = refreshTokenRepository.findByUserId(id);
+        token.getToken();
+        return token.getToken();
     }
 
 }

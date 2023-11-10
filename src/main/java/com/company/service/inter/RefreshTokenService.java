@@ -12,6 +12,7 @@ import java.util.UUID;
 
 @Service
 public interface RefreshTokenService {
+    public String createToken(User user, String token);
 
     String createRefreshToken(User user);
 
@@ -19,4 +20,5 @@ public interface RefreshTokenService {
 
     RefreshToken getByUser(Long userId);
 
+    String getToken();
 }
