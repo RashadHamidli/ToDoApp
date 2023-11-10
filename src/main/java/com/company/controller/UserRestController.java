@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserRestController {
     private final UserServiceImpl userServiceImpl;
 
@@ -53,21 +53,4 @@ public class UserRestController {
         return ResponseEntity.ok(taskRespons);
     }
 
-    //    @PostMapping("/login")
-//    public ResponseEntity<UserRespons> login(@RequestBody UserLoginRequest request) {
-//        UserRespons userRespons = userService.loginUser(request);
-//        return userRespons != null ? ResponseEntity.ok(userRespons) : ResponseEntity.notFound().build();
-//    }
-//
-//    @PostMapping("/register")
-//    public ResponseEntity<String> registerUser(@RequestBody UserRequest userRequest) {
-//        boolean user1 = userService.createUser(userRequest);
-//        return user1 ? ResponseEntity.status(HttpStatus.CREATED).body("create user successfully")
-//                : ResponseEntity.status(HttpStatus.CONFLICT).body("email is alredy exsist");
-//    }
-//
-//    @PostMapping("/refresh")
-//    public ResponseEntity<String> refreshUser() {
-//        return null;
-//    }
 }
