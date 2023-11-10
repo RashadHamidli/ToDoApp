@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/todoapp/users")
 public class UserRestControllerImpl implements UserRestController {
     private final UserService userService;
 

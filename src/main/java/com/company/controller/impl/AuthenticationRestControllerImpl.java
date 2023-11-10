@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/todoapp/auth")
 @RequiredArgsConstructor
-public class AuthenticationControllerImpl implements AuthenticationRestController {
+public class AuthenticationRestControllerImpl implements AuthenticationRestController {
     private final AuthenticationService authenticationService;
 
     @Override
