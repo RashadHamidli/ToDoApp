@@ -6,13 +6,14 @@ import com.company.dao.repository.UserRepository;
 import com.company.dto.request.TaskRequest;
 import com.company.dto.response.TaskRespons;
 import com.company.exceptions.MyExceptionHandler;
+import com.company.service.TaskService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class TaskServiceImpl {
+public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
 
@@ -20,22 +21,22 @@ public class TaskServiceImpl {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
     }
-
+    @Override
     public List<TaskRespons> getAllTasks() {
         return taskRepository.findAll().stream().map(TaskRespons::new).collect(Collectors.toList());
     }
-
+    @Override
     public TaskRespons getTaskById(Long taskId) {
         Task task = taskRepository.findById(taskId).orElseThrow();
         return new TaskRespons(task);
     }
-
+    @Override
     public TaskRespons createTask(TaskRequest taskRequest) {
         Task task = new TaskRequest().taskRequestConverToTask(taskRequest);
         Task savedTask = taskRepository.save(task);
         return new TaskRespons(savedTask);
     }
-
+    @Override
     public TaskRespons createTaskForUser(Long userId, TaskRequest taskRequest) {
         return userRepository.findById(userId)
                 .map(user -> {
@@ -46,7 +47,7 @@ public class TaskServiceImpl {
                 })
                 .orElseThrow(MyExceptionHandler::new);
     }
-
+    @Override
     public TaskRespons updateTaskByTaskId(Long taskId, TaskRequest taskRequest) {
         return taskRepository.findById(taskId)
                 .map(task -> {
@@ -61,15 +62,14 @@ public class TaskServiceImpl {
                 })
                 .orElseThrow(MyExceptionHandler::new);
     }
-
+    @Override
     public boolean deleteTaskByTaskId(Long taskId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(MyExceptionHandler::new);
         taskRepository.delete(task);
         return true;
     }
-
-
+    @Override
     public boolean deleteTaskByUserIdAndTaskId(Long taskId, Long userId) {
         Task task = taskRepository.findById(taskId).orElseThrow(MyExceptionHandler::new);
         if(task.getUser().getId().equals(userId)){

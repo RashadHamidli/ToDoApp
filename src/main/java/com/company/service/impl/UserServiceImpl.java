@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
         };
     }
 
+    @Override
     public List<UserRespons> getAllUser() {
         List<User> allUsers = userRepository.findAll();
         return allUsers.stream().map(user -> {
@@ -54,6 +55,7 @@ public class UserServiceImpl implements UserService {
         }).collect(Collectors.toList());
     }
 
+    @Override
     public UserRespons updateUser(Long userId, UserRequest userRequest) {
         return userRepository.findById(userId)
                 .map(foundedUser -> {
@@ -71,12 +73,14 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(MyExceptionHandler::new);
     }
 
+    @Override
     public boolean deleteUser(Long userId) {
         Optional<User> optionalUser = Optional.of(userRepository.findById(userId).orElseThrow());
         userRepository.delete(optionalUser.get());
         return true;
     }
 
+    @Override
     public List<TaskRespons> getUserTasks(Long userId) {
         Optional<User> foundedUser = Optional.of(userRepository.findById(userId).orElseThrow());
         List<Task> taskList = foundedUser.get().getTaskList();
@@ -84,6 +88,7 @@ public class UserServiceImpl implements UserService {
         return tasks;
     }
 
+    @Override
     public TaskRespons updateUserTasks(Long userId, Long taskId, TaskRequest taskRequest) {
         return userRepository.findById(userId)
                 .map(user -> {
