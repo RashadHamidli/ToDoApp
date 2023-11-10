@@ -5,7 +5,6 @@ import com.company.dao.entities.User;
 import com.company.dao.repository.TaskRepository;
 import com.company.dao.repository.UserRepository;
 import com.company.dto.request.TaskRequest;
-import com.company.dto.request.UserLoginRequest;
 import com.company.dto.request.UserRequest;
 import com.company.dto.response.TaskRespons;
 import com.company.dto.response.UserRespons;
@@ -23,12 +22,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final UserLoginRequest userLoginRequest;
-    private final TaskRepository taskRepository;
+       private final TaskRepository taskRepository;
 
-    public UserServiceImpl(UserRepository userRepository, UserLoginRequest userLoginRequest, TaskRepository taskRepository) {
+    public UserServiceImpl(UserRepository userRepository,  TaskRepository taskRepository) {
         this.userRepository = userRepository;
-        this.userLoginRequest = userLoginRequest;
         this.taskRepository = taskRepository;
     }
 

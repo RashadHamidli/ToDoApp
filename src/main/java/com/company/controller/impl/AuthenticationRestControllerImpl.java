@@ -1,8 +1,10 @@
 package com.company.controller.impl;
 
 import com.company.controller.inter.AuthenticationRestController;
+import com.company.dto.request.RefreshRequest;
 import com.company.dto.request.SignUpRequest;
 import com.company.dto.request.SigninRequest;
+import com.company.dto.response.AuthResponse;
 import com.company.dto.response.JwtAuthenticationResponse;
 import com.company.service.inter.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +30,11 @@ public class AuthenticationRestControllerImpl implements AuthenticationRestContr
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SigninRequest request) {
         return ResponseEntity.ok(authenticationService.signin(request));
+    }
+
+    @Override
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(RefreshRequest refreshRequest) {
+        return ResponseEntity.ok(authenticationService.refresh(refreshRequest));
     }
 }

@@ -3,13 +3,13 @@ package com.company.dto.response;
 import com.company.dao.entities.Task;
 import lombok.Data;
 
-import java.sql.Time;
+import java.util.Date;
 
 @Data
 public class TaskRespons {
     private Long id;
     private String taskName;
-    private Time deadline;
+    private Date deadline;
     private String text;
     private Long userId;
 
