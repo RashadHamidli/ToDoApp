@@ -1,11 +1,11 @@
 package com.company.service.impl;
 
-import com.company.dao.request.SignUpRequest;
-import com.company.dao.request.SigninRequest;
-import com.company.dao.response.JwtAuthenticationResponse;
-import com.company.entities.Role;
-import com.company.entities.User;
-import com.company.repository.UserRepository;
+import com.company.dto.request.SignUpRequest;
+import com.company.dto.request.SigninRequest;
+import com.company.dto.response.JwtAuthenticationResponse;
+import com.company.dao.entities.Role;
+import com.company.dao.entities.User;
+import com.company.dao.repository.UserRepository;
 import com.company.service.AuthenticationService;
 import com.company.service.JwtService;
 import lombok.RequiredArgsConstructor;

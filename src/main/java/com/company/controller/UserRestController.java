@@ -4,7 +4,7 @@ import com.company.dto.request.TaskRequest;
 import com.company.dto.request.UserRequest;
 import com.company.dto.response.TaskRespons;
 import com.company.dto.response.UserRespons;
-import com.company.service.UserServiceImpl;
+import com.company.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

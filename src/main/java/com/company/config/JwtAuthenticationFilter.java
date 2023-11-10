@@ -1,7 +1,7 @@
 package com.company.config;
 
 import com.company.service.JwtService;
-import com.company.service.UserServiceImpl;
+import com.company.service.impl.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

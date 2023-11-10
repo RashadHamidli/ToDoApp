@@ -1,15 +1,19 @@
-package com.company.service;
+package com.company.service.impl;
 
-import com.company.dao.entity.Task;
-import com.company.dao.entity.User;
-import com.company.dao.reposiroty.TaskRepository;
-import com.company.dao.reposiroty.UserRepository;
+import com.company.dao.entities.Task;
+import com.company.dao.entities.User;
+import com.company.dao.repository.TaskRepository;
+import com.company.dao.repository.UserRepository;
 import com.company.dto.request.TaskRequest;
 import com.company.dto.request.UserLoginRequest;
 import com.company.dto.request.UserRequest;
 import com.company.dto.response.TaskRespons;
 import com.company.dto.response.UserRespons;
 import com.company.exceptions.MyExceptionHandler;
+import com.company.service.UserService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserLoginRequest userLoginRequest;
     private final TaskRepository taskRepository;
@@ -28,10 +32,19 @@ public class UserServiceImpl {
         this.taskRepository = taskRepository;
     }
 
+    @Override
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) {
+                return userRepository.findByEmail(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            }
+        };
+    }
     public User saveUser(User newUser) {
         return userRepository.save(newUser);
     }
-
 
     public List<UserRespons> getAllUser() {
         List<User> allUsers = userRepository.findAll();
@@ -130,5 +143,6 @@ public class UserServiceImpl {
         }
         return null;
     }
+
 
 }

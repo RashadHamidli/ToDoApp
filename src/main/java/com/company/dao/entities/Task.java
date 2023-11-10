@@ -1,4 +1,4 @@
-package com.company.dao.entity;
+package com.company.dao.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

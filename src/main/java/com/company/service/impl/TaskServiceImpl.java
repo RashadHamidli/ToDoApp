@@ -1,8 +1,8 @@
 package com.company.service.impl;
 
-import com.company.dao.entity.Task;
-import com.company.dao.reposiroty.TaskRepository;
-import com.company.dao.reposiroty.UserRepository;
+import com.company.dao.entities.Task;
+import com.company.dao.repository.TaskRepository;
+import com.company.dao.repository.UserRepository;
 import com.company.dto.request.TaskRequest;
 import com.company.dto.response.TaskRespons;
 import com.company.exceptions.MyExceptionHandler;
