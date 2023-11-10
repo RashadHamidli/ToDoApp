@@ -18,8 +18,8 @@ import java.util.function.Function;
 public class JwtServiceImpl implements JwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
-    private static final long TOKEN_VALIDITY = 1000L * 60 * 60 * 24 * 365;
-
+    @Value("${refresh.token.expires.in}")
+    Long expireSeconds;
     @Override
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -46,7 +46,7 @@ public class JwtServiceImpl implements JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY))
+                .setExpiration(new Date(System.currentTimeMillis() + expireSeconds))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
@@ -68,7 +68,7 @@ public class JwtServiceImpl implements JwtService {
         } catch (ExpiredJwtException e) {
             throw e;
         } catch (JwtException e) {
-            throw new JwtException("JWT ayrıştırma hatası", e);
+            throw new JwtException("JWT parsing error", e);
         }
     }
 

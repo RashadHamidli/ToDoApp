@@ -10,6 +10,7 @@ import com.company.dao.entities.User;
 import com.company.dao.repository.UserRepository;
 import com.company.service.inter.AuthenticationService;
 import com.company.service.inter.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -58,9 +59,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             var jwt = jwtService.generateToken(user);
             return JwtAuthenticationResponse.builder().token(jwt).build();
         } else {
-            throw new IllegalArgumentException("Invalid token.");
+            JwtAuthenticationResponse refreshToken = refresh(request);
+            return JwtAuthenticationResponse.builder().token(refreshToken.getToken()).build();
         }
     }
+
 
     @Override
     public JwtAuthenticationResponse refresh(SigninRequest request) {

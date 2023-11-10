@@ -1,5 +1,6 @@
 package com.company.service.inter;
 
+import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JwtService {
