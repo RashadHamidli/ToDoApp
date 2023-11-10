@@ -29,7 +29,11 @@ public class TaskRestController {
         TaskRespons taskRespons = taskServiceImpl.getTaskById(taskId);
         return ResponseEntity.ok(taskRespons);
     }
-
+    @PostMapping("/task")
+    public ResponseEntity<TaskRespons> createTask(@RequestBody TaskRequest taskRequest) {
+        TaskRespons taskRespons = taskServiceImpl.createTask(taskRequest);
+        return ResponseEntity.ok(taskRespons);
+    }
     @PostMapping("/user/{userId}")
     public ResponseEntity<TaskRespons> createTaskForUserId(@PathVariable Long userId, @RequestBody TaskRequest taskRequest) {
         TaskRespons taskRespons = taskServiceImpl.createTaskForUser(userId, taskRequest);

@@ -30,6 +30,12 @@ public class TaskServiceImpl {
         return new TaskRespons(task);
     }
 
+    public TaskRespons createTask(TaskRequest taskRequest) {
+        Task task = new TaskRequest().taskRequestConverToTask(taskRequest);
+        Task savedTask = taskRepository.save(task);
+        return new TaskRespons(savedTask);
+    }
+
     public TaskRespons createTaskForUser(Long userId, TaskRequest taskRequest) {
         return userRepository.findById(userId)
                 .map(user -> {
@@ -61,4 +67,6 @@ public class TaskServiceImpl {
         taskRepository.delete(task);
         return true;
     }
+
+
 }
