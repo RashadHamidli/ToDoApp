@@ -1,4 +1,4 @@
-package com.company.service;
+package com.company.service.inter;
 
 import com.company.dto.request.SignUpRequest;
 import com.company.dto.request.SigninRequest;

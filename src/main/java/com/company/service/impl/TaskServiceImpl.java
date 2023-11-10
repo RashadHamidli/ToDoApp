@@ -6,7 +6,7 @@ import com.company.dao.repository.UserRepository;
 import com.company.dto.request.TaskRequest;
 import com.company.dto.response.TaskRespons;
 import com.company.exceptions.MyExceptionHandler;
-import com.company.service.TaskService;
+import com.company.service.inter.TaskService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

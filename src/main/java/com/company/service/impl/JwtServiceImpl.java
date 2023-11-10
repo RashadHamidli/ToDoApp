@@ -1,6 +1,6 @@
 package com.company.service.impl;
 
-import com.company.service.JwtService;
+import com.company.service.inter.JwtService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

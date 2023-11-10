@@ -10,7 +10,7 @@ import com.company.dto.request.UserRequest;
 import com.company.dto.response.TaskRespons;
 import com.company.dto.response.UserRespons;
 import com.company.exceptions.MyExceptionHandler;
-import com.company.service.UserService;
+import com.company.service.inter.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

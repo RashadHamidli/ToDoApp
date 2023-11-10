@@ -1,4 +1,4 @@
-package com.company.service;
+package com.company.service.inter;
 
 import com.company.dao.entities.Task;
 import com.company.dao.entities.User;
