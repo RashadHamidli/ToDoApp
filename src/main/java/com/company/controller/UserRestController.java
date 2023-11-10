@@ -7,6 +7,8 @@ import com.company.dto.response.UserRespons;
 import com.company.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +24,14 @@ public class UserRestController {
     }
 
     @GetMapping("/all")
+    @Secured("ADMIN")
     public ResponseEntity<List<UserRespons>> getAllUsers() {
         List<UserRespons> allUser = userServiceImpl.getAllUser();
         return ResponseEntity.ok(allUser);
     }
 
     @PutMapping("/update/{userId}")
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<UserRespons> updateUser(@PathVariable Long userId, @RequestBody UserRequest userRequest) {
         UserRespons userRespons = userServiceImpl.updateUser(userId, userRequest);
         return userRespons != null ? ResponseEntity.status(HttpStatus.OK).body(userRespons)
@@ -35,6 +39,7 @@ public class UserRestController {
     }
 
     @DeleteMapping("delete/{userId}")
+    @Secured("ADMIN")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
         boolean deleteUser = userServiceImpl.deleteUser(userId);
         return deleteUser ? ResponseEntity.status(HttpStatus.OK).body("delete successfully")
@@ -42,13 +47,15 @@ public class UserRestController {
     }
 
     @GetMapping("/{userId}/tasks")
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<List<TaskRespons>> getUserTasks(@PathVariable Long userId) {
         List<TaskRespons> userTasks = userServiceImpl.getUserTasks(userId);
         return ResponseEntity.ok(userTasks);
     }
 
     @PostMapping("/{userId}/{tasksid}")
-    public ResponseEntity<TaskRespons> updteUserTask(@PathVariable Long userId, @PathVariable Long tasksid, @RequestBody TaskRequest taskRequest) {
+    @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
+    public ResponseEntity<TaskRespons> updateUserTaskByUserIdAndTaskId(@PathVariable Long userId, @PathVariable Long tasksid, @RequestBody TaskRequest taskRequest) {
         TaskRespons taskRespons = userServiceImpl.updateUserTasks(userId, tasksid, taskRequest);
         return ResponseEntity.ok(taskRespons);
     }

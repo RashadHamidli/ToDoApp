@@ -63,10 +63,19 @@ public class TaskServiceImpl {
     }
 
     public boolean deleteTaskByTaskId(Long taskId) {
-        Task task = taskRepository.findById(taskId).orElseThrow();
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(MyExceptionHandler::new);
         taskRepository.delete(task);
         return true;
     }
 
 
+    public boolean deleteTaskByUserIdAndTaskId(Long taskId, Long userId) {
+        Task task = taskRepository.findById(taskId).orElseThrow(MyExceptionHandler::new);
+        if(task.getUser().getId().equals(userId)){
+            taskRepository.delete(task);
+            return true;
+        }
+        return false;
+    }
 }
