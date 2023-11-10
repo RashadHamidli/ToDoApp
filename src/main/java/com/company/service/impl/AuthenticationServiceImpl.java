@@ -69,7 +69,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
         var jwt = jwtService.generateToken(user);
-        Token token = new Token();
+        Token token = tokenRepository.findByUserId(user.getId());
         token.setToken(jwt);
         token.setUser(user);
         token.setExpiryDate(Date.from(Instant.now().plusSeconds(expireSeconds)));
