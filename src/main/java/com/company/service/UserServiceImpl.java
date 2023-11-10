@@ -17,12 +17,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserServiceImpl {
     private final UserRepository userRepository;
     private final UserLoginRequest userLoginRequest;
     private final TaskRepository taskRepository;
 
-    public UserService(UserRepository userRepository, UserLoginRequest userLoginRequest, TaskRepository taskRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserLoginRequest userLoginRequest, TaskRepository taskRepository) {
         this.userRepository = userRepository;
         this.userLoginRequest = userLoginRequest;
         this.taskRepository = taskRepository;
@@ -95,40 +95,40 @@ public class UserService {
                 .orElseThrow(MyExceptionHandler::new);
     }
 
-//    public User getUserByEmail(String userName) {
-//        Optional<User> optionalUser = userRepository.findByEmail(userName);
-//        if (optionalUser.isPresent()) {
-//            return optionalUser.get();
-//        }
-//        return null;
-//    }
-//
-//    public boolean createUser(UserRequest userRequest) {
-//        Optional<User> foundedUser = userRepository.findByEmail(userRequest.getEmail());
-//        if (foundedUser != null)
-//            return false;
-//        User user = userRequest.userRequestConvertToUser(userRequest);
-//        userRepository.save(user);
-//        return true;
-//    }
-//
-//    public UserRespons loginUser(UserLoginRequest request) {
-//        User userRequest = userLoginRequest.userLoginRequestConvertToUser(request);
-//        Optional<User> optionalUser = userRepository.findByEmail(userRequest.getEmail());
-//        if (optionalUser.isPresent()) {
-//            User foundedUser = optionalUser.get();
-//            if (foundedUser != null
-//                    && foundedUser.getEmail().equals(userRequest.getEmail())
-//                    && foundedUser.getPassword().equals(userRequest.getPassword())) {
-//                List<Task> userTasks = foundedUser.getTaskList();
-//                List<TaskRespons> tasks = userTasks.stream()
-//                        .map(TaskRespons::new)
-//                        .collect(Collectors.toList());
-//                return new UserRespons(foundedUser, tasks);
-//            }
-//            return null;
-//        }
-//        return null;
-//    }
+    public User getUserByEmail(String userName) {
+        Optional<User> optionalUser = userRepository.findByEmail(userName);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        }
+        return null;
+    }
+
+    public boolean createUser(UserRequest userRequest) {
+        Optional<User> foundedUser = userRepository.findByEmail(userRequest.getEmail());
+        if (foundedUser != null)
+            return false;
+        User user = userRequest.userRequestConvertToUser(userRequest);
+        userRepository.save(user);
+        return true;
+    }
+
+    public UserRespons loginUser(UserLoginRequest request) {
+        User userRequest = userLoginRequest.userLoginRequestConvertToUser(request);
+        Optional<User> optionalUser = userRepository.findByEmail(userRequest.getEmail());
+        if (optionalUser.isPresent()) {
+            User foundedUser = optionalUser.get();
+            if (foundedUser != null
+                    && foundedUser.getEmail().equals(userRequest.getEmail())
+                    && foundedUser.getPassword().equals(userRequest.getPassword())) {
+                List<Task> userTasks = foundedUser.getTaskList();
+                List<TaskRespons> tasks = userTasks.stream()
+                        .map(TaskRespons::new)
+                        .collect(Collectors.toList());
+                return new UserRespons(foundedUser, tasks);
+            }
+            return null;
+        }
+        return null;
+    }
 
 }
