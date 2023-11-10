@@ -14,8 +14,8 @@ public class UserRequest {
 
     public User userRequestConvertToUser(UserRequest userRequest) {
         User user = new User();
-        user.setName(userRequest.name);
-        user.setSurname(userRequest.surname);
+        user.setFirstName(userRequest.name);
+        user.setLastName(userRequest.surname);
         user.setEmail(userRequest.email);
         user.setPassword(userRequest.password);
         return user;

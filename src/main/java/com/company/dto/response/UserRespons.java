@@ -1,4 +1,4 @@
-package com.company.dto.respons;
+package com.company.dto.response;
 
 import com.company.dao.entity.User;
 import lombok.Data;
@@ -16,8 +16,8 @@ public class UserRespons {
 
     public UserRespons(User user, List<TaskRespons> tasks) {
         this.id = user.getId();
-        this.name = user.getName();
-        this.surname = user.getSurname();
+        this.name = user.getFirstName();
+        this.surname = user.getLastName();
         this.email = user.getEmail();
         this.taskList = tasks;
     }

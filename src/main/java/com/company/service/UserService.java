@@ -7,8 +7,8 @@ import com.company.dao.reposiroty.UserRepository;
 import com.company.dto.request.TaskRequest;
 import com.company.dto.request.UserLoginRequest;
 import com.company.dto.request.UserRequest;
-import com.company.dto.respons.TaskRespons;
-import com.company.dto.respons.UserRespons;
+import com.company.dto.response.TaskRespons;
+import com.company.dto.response.UserRespons;
 import com.company.exceptions.MyExceptionHandler;
 import org.springframework.stereotype.Service;
 
@@ -48,9 +48,9 @@ public class UserService {
         return userRepository.findById(userId)
                 .map(foundedUser -> {
                     if (userRequest.getName() != null && !userRequest.getName().isEmpty())
-                        foundedUser.setName(userRequest.getName());
+                        foundedUser.setFirstName(userRequest.getName());
                     if (userRequest.getSurname() != null && !userRequest.getSurname().isEmpty())
-                        foundedUser.setSurname(userRequest.getSurname());
+                        foundedUser.setLastName(userRequest.getSurname());
                     foundedUser.setId(userId);
                     User updateUser = userRepository.save(foundedUser);
                     List<TaskRespons> tasks = foundedUser.getTaskList().stream()

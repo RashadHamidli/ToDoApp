@@ -1,4 +1,4 @@
-package com.company.dto.respons;
+package com.company.dto.response;
 
 import com.company.dao.entity.Task;
 import lombok.Data;

@@ -1,16 +1,14 @@
 package com.company.service;
 
 import com.company.dao.entity.Task;
-import com.company.dao.entity.User;
 import com.company.dao.reposiroty.TaskRepository;
 import com.company.dao.reposiroty.UserRepository;
 import com.company.dto.request.TaskRequest;
-import com.company.dto.respons.TaskRespons;
+import com.company.dto.response.TaskRespons;
 import com.company.exceptions.MyExceptionHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

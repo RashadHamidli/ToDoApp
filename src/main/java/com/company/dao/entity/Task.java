@@ -1,16 +1,15 @@
 package com.company.dao.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.sql.Time;
 
 @Entity
+@Builder
 @Table(name = "tasks")
 @NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 @Data
 public class Task {
