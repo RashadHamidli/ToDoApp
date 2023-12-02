@@ -16,14 +16,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/todoapp/users")
-public class UserRestController implements UserRestController {
+public class UserRestController {
     private final UserService userService;
 
     public UserRestController(UserService userService) {
         this.userService = userService;
     }
 
-    @Override
     @GetMapping("/all")
     @Secured("ADMIN")
     public ResponseEntity<List<UserRespons>> getAllUsers() {
@@ -31,7 +30,6 @@ public class UserRestController implements UserRestController {
         return ResponseEntity.ok(allUser);
     }
 
-    @Override
     @PutMapping("/update/{userId}")
     @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<UserRespons> updateUser(@PathVariable Long userId,
@@ -41,7 +39,6 @@ public class UserRestController implements UserRestController {
                 : ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    @Override
     @DeleteMapping("delete/{userId}")
     @Secured("ADMIN")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
@@ -50,7 +47,6 @@ public class UserRestController implements UserRestController {
                 : ResponseEntity.status(HttpStatus.CONFLICT).body("user cannot deleted");
     }
 
-    @Override
     @GetMapping("/{userId}/tasks")
     @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<List<TaskRespons>> getUserTasks(@PathVariable Long userId) {
@@ -58,7 +54,6 @@ public class UserRestController implements UserRestController {
         return ResponseEntity.ok(userTasks);
     }
 
-    @Override
     @PostMapping("/{userId}/{tasksid}")
     @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<TaskRespons> updateUserTaskByUserIdAndTaskId(@PathVariable Long userId,
