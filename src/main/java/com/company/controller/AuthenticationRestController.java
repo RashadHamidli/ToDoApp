@@ -14,22 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/todoapp/auth")
 @RequiredArgsConstructor
-public class AuthenticationRestController implements AuthenticationRestController {
+public class AuthenticationRestController {
     private final AuthenticationService authenticationService;
 
-    @Override
     @PostMapping("/signup")
     public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignUpRequest request) {
         return ResponseEntity.ok(authenticationService.signup(request));
     }
 
-    @Override
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SigninRequest request) {
         return ResponseEntity.ok(authenticationService.signin(request));
     }
 
-    @Override
     @PostMapping("/refresh")
     public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody SigninRequest request) {
         return ResponseEntity.ok(authenticationService.refresh(request));
