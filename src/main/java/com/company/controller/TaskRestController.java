@@ -14,10 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/todoapp/tasks")
-public class TaskRestControllerImpl implements TaskRestController {
+public class TaskRestController implements TaskRestController {
     private final TaskService taskService;
 
-    public TaskRestControllerImpl(TaskServiceImpl taskService) {
+    public TaskRestController(TaskServiceImpl taskService) {
         this.taskService = taskService;
     }
 

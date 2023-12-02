@@ -16,10 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/todoapp/users")
-public class UserRestControllerImpl implements UserRestController {
+public class UserRestController implements UserRestController {
     private final UserService userService;
 
-    public UserRestControllerImpl(UserService userService) {
+    public UserRestController(UserService userService) {
         this.userService = userService;
     }
 
