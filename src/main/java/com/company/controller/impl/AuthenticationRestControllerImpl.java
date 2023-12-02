@@ -1,6 +1,5 @@
 package com.company.controller.impl;
 
-import com.company.controller.inter.AuthenticationRestController;
 import com.company.dto.request.SignUpRequest;
 import com.company.dto.request.SigninRequest;
 import com.company.dto.response.JwtAuthenticationResponse;
