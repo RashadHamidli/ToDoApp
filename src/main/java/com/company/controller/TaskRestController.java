@@ -14,21 +14,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/todoapp/tasks")
-public class TaskRestController implements TaskRestController {
+public class TaskRestController {
     private final TaskService taskService;
 
     public TaskRestController(TaskServiceImpl taskService) {
         this.taskService = taskService;
     }
 
-    @Override
     @GetMapping("/all")
     public ResponseEntity<List<TaskRespons>> getAllTasks() {
         List<TaskRespons> allTasks = taskService.getAllTasks();
         return ResponseEntity.ok(allTasks);
     }
 
-    @Override
     @GetMapping("/{taskId}")
     @Secured("ADMIN")
     public ResponseEntity<TaskRespons> getTaskByTaskId(@PathVariable Long taskId) {
@@ -36,7 +34,6 @@ public class TaskRestController implements TaskRestController {
         return ResponseEntity.ok(taskRespons);
     }
 
-    @Override
     @PostMapping("/task")
     @Secured("ADMIN")
     public ResponseEntity<TaskRespons> createTask(@RequestBody TaskRequest taskRequest) {
@@ -44,7 +41,6 @@ public class TaskRestController implements TaskRestController {
         return ResponseEntity.ok(taskRespons);
     }
 
-    @Override
     @PostMapping("/user/{userId}")
     @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<TaskRespons> createTaskForUserId(@PathVariable Long userId,
@@ -53,7 +49,6 @@ public class TaskRestController implements TaskRestController {
         return ResponseEntity.ok(taskRespons);
     }
 
-    @Override
     @PutMapping("/{taskId}")
     @Secured("ADMIN")
     public ResponseEntity<TaskRespons> updateTaskByTaskId(@PathVariable Long taskId,
@@ -62,7 +57,6 @@ public class TaskRestController implements TaskRestController {
         return ResponseEntity.ok(taskRespons);
     }
 
-    @Override
     @DeleteMapping("/{taskId}")
     @Secured("ADMIN")
     public ResponseEntity<String> deleteTaskByTaskId(@PathVariable Long taskId) {
@@ -71,7 +65,6 @@ public class TaskRestController implements TaskRestController {
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("task cannot be deleted");
     }
 
-    @Override
     @DeleteMapping("/{userId}/{taskId}")
     @PreAuthorize("#userId == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<String> deleteTaskByUserIdAndTaskId(@PathVariable Long taskId,
