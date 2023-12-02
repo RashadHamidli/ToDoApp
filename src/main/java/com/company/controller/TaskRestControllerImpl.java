@@ -1,4 +1,4 @@
-package com.company.controller.impl;
+package com.company.controller;
 
 import com.company.dto.request.TaskRequest;
 import com.company.dto.response.TaskRespons;
