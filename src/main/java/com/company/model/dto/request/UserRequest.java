@@ -1,4 +1,4 @@
-package com.company.dto.request;
+package com.company.model.dto.request;
 
 import com.company.dao.entities.User;
 import lombok.Data;

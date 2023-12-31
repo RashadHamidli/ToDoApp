@@ -1,13 +1,13 @@
 package com.company.service.impl;
 
-import com.company.dao.entities.Task;
+import com.company.model.dao.entities.Task;
 import com.company.dao.entities.User;
-import com.company.dao.repository.TaskRepository;
-import com.company.dao.repository.UserRepository;
-import com.company.dto.request.TaskRequest;
-import com.company.dto.request.UserRequest;
-import com.company.dto.response.TaskRespons;
-import com.company.dto.response.UserRespons;
+import com.company.model.dao.repository.TaskRepository;
+import com.company.model.dao.repository.UserRepository;
+import com.company.model.dto.request.TaskRequest;
+import com.company.model.dto.request.UserRequest;
+import com.company.model.dto.response.TaskRespons;
+import com.company.model.dto.response.UserRespons;
 import com.company.exceptions.MyExceptionHandler;
 import com.company.service.inter.UserService;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,6 @@
-package com.company.dto.request;
+package com.company.model.dto.request;
 
-import com.company.dao.entities.Task;
+import com.company.model.dao.entities.Task;
 import lombok.Data;
 
 import java.sql.Time;

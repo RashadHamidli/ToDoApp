@@ -1,8 +1,8 @@
 package com.company.service.inter;
 
-import com.company.dto.request.SignUpRequest;
-import com.company.dto.request.SigninRequest;
-import com.company.dto.response.JwtAuthenticationResponse;
+import com.company.model.dto.request.SignUpRequest;
+import com.company.model.dto.request.SigninRequest;
+import com.company.model.dto.response.JwtAuthenticationResponse;
 public interface AuthenticationService {
     JwtAuthenticationResponse signup(SignUpRequest request);
 

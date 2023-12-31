@@ -1,8 +1,8 @@
 package com.company.controller;
 
-import com.company.dto.request.SignUpRequest;
-import com.company.dto.request.SigninRequest;
-import com.company.dto.response.JwtAuthenticationResponse;
+import com.company.model.dto.request.SignUpRequest;
+import com.company.model.dto.request.SigninRequest;
+import com.company.model.dto.response.JwtAuthenticationResponse;
 import com.company.service.inter.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

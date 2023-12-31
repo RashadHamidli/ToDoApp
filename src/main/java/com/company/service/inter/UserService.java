@@ -1,17 +1,13 @@
 package com.company.service.inter;
 
-import com.company.dao.entities.Task;
 import com.company.dao.entities.User;
-import com.company.dto.request.TaskRequest;
-import com.company.dto.request.UserRequest;
-import com.company.dto.response.TaskRespons;
-import com.company.dto.response.UserRespons;
-import com.company.exceptions.MyExceptionHandler;
+import com.company.model.dto.request.TaskRequest;
+import com.company.model.dto.request.UserRequest;
+import com.company.model.dto.response.TaskRespons;
+import com.company.model.dto.response.UserRespons;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public interface UserService {
     UserDetailsService userDetailsService();

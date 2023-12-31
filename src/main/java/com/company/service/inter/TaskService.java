@@ -1,7 +1,7 @@
 package com.company.service.inter;
 
-import com.company.dto.request.TaskRequest;
-import com.company.dto.response.TaskRespons;
+import com.company.model.dto.request.TaskRequest;
+import com.company.model.dto.response.TaskRespons;
 
 import java.util.List;
 
